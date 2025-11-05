@@ -1,5 +1,3 @@
-import os
-
 """
 BFS implementation of NFA
 
