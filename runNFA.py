@@ -1,9 +1,4 @@
-import sys
-
-infile = sys.argv[1]
-file = open(infile).read().strip()
-lines = file.split('\n')
-
+import os
 
 """
 BFS implementation of NFA
@@ -27,7 +22,7 @@ def NFA(nfa, beta):
 				if t[0] == state and t[1] == b:
 					next_states.add(t[2])
 		current_states = next_states
-		# Print current states and input symbol for visualization if needed
+		# Print input symbol and current states for visualization if needed
 		# print(f"{b}: {current_states}")
 
 	return final_states in current_states
@@ -36,8 +31,14 @@ def NFA(nfa, beta):
 Take user input and run the NFA on it.
 """
 def empty_beta(nfa):
+	count = 0
 	while True:
-		b = input("Please input a string: ").strip()
+		if count == 0:
+			b = input("Please input a string: ").strip()
+			count += 1
+		else:
+			b = input("Please input another string: ").strip()
+
 		if b == "":
 			print("Bye bye")
 			break
@@ -53,14 +54,26 @@ def non_empty_beta(nfa, beta):
 	string_accepted = []
 	for b in beta:
 		if NFA(nfa, b):
-			# print(f"{b}: Accepted.")
 			string_accepted.append("accepted")
 		else:
-			# print(f"{b}: Rejected.")
 			string_accepted.append("rejected")
 	print("(" + ', '.join(string_accepted) + ")", end='')
 
-if __name__ == "__main__":
+"""
+Main function to open and parse the input file.
+
+inputs: infile - path to the input file
+outputs: nfa (the 5-tuple) and beta (the input string)
+"""
+def main(infile):
+	# Getting the absolute path of the input file
+	infile_path = infile + ".txt"
+
+	# Opening the File and reading the contents
+	file = open(infile_path).read().strip()
+	lines = file.split('\n')
+
+	# Parsing the input file
 	alpha = lines[2:7]
 	alpha = [line.strip().removesuffix(',') for line in alpha]
 
@@ -84,8 +97,14 @@ if __name__ == "__main__":
 		for i in range(len(t)):
 			t[i] = t[i].strip()
 
-
 	nfa = [alphabet, states, init_state, final_states, transitions]
+
+	return nfa, beta
+
+
+if __name__ == "__main__":
+	infile = input("Please input the file name: ")
+	nfa, beta = main(infile)
 
 	if beta == ['']:
 		empty_beta(nfa)
