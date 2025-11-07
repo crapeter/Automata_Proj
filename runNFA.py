@@ -1,5 +1,3 @@
-from pprint import pprint
-
 """
 Group Members:
 	Craig Peterson
@@ -95,7 +93,7 @@ def non_empty_beta(nfa, beta):
 """
 Flatten the NFA definition from multiple lines into a single 5-tuple.
 
-Inputs: alpha - list of strings representing the NFA definition
+Inputs: alpha - input file as a string
 Outputs: nfa - a 5-tuple representing the NFA
 """
 def flatten_nfa(alpha):
@@ -148,7 +146,6 @@ Outputs: nfa (the 5-tuple) and beta (the input string)
 def parse_input(infile):
 	# Getting the absolute path of the input file
 	infile_path = infile + ".txt"
-	nfa = []
 
 	# Opening the File and reading the contents
 	with open(infile_path, 'r') as f:
