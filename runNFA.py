@@ -1,4 +1,10 @@
 """
+Group Members:
+	Craig Peterson
+	Ethan Norales De La Rosa
+"""
+
+"""
 BFS implementation of NFA
 
 Inputs: nfa - a 5-tuple representing the NFA
@@ -9,13 +15,15 @@ Outputs: True if beta is accepted by the NFA, False otherwise
 def NFA(nfa, beta):
 	alphabet, states, init_state, final_states, transitions = nfa
 
-	if not set(beta) == set(alphabet):
+	if not set(beta).issubset(set(alphabet)):
 		return False
 
 	current_states = set([init_state])
 	for b in beta:
 		next_states = set()
 		for state in current_states:
+			if not state in states:
+				continue
 			for t in transitions:
 				if t[0] == state and t[1] == b:
 					next_states.add(t[2])
@@ -26,16 +34,16 @@ def NFA(nfa, beta):
 	return final_states in current_states
 
 """
-Take user input and run the NFA on it.
+Take user input and runs the NFA on it.
 """
 def empty_beta(nfa):
 	count = 0
 	while True:
-		if count == 0:
+		if not count == 0:
+			b = input("Please input another string: ").strip()
+		else:
 			b = input("Please input a string: ").strip()
 			count += 1
-		else:
-			b = input("Please input another string: ").strip()
 
 		if b == "":
 			print("Bye bye")
@@ -58,12 +66,12 @@ def non_empty_beta(nfa, beta):
 	print("(" + ', '.join(string_accepted) + ")", end='')
 
 """
-Main function to open and parse the input file.
+parse_input function to open and parse the input file.
 
-inputs: infile - path to the input file
+inputs: infile - name of the input file (without .txt extension)
 outputs: nfa (the 5-tuple) and beta (the input string)
 """
-def main(infile):
+def parse_input(infile):
 	# Getting the absolute path of the input file
 	infile_path = infile + ".txt"
 
@@ -99,10 +107,12 @@ def main(infile):
 
 	return nfa, beta
 
-
+"""
+Main function to run the NFA
+"""
 if __name__ == "__main__":
-	infile = input("Please input the file name: ")
-	nfa, beta = main(infile)
+	infile = input("Please input the file name: ").strip()
+	nfa, beta = parse_input(infile)
 
 	if beta == ['']:
 		empty_beta(nfa)
