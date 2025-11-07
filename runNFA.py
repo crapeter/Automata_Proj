@@ -5,7 +5,12 @@ Group Members:
 
 Assumptions:
 	- The NFA is represented as a 5-tuple: (alphabet, states, init_state, final_states, transitions) along with Beta (input strings)
-	- The first two lines of the input file are open parentheses that start the NFA definition and the last three lines contain the input strings (Beta) and closing parentheses.
+
+	- Assume that the input can span multiple lines in the input file instead of a single line per string, i.e. alphabet can be on more the one line etc...
+
+	- There is always a ")," line that separates the NFA definition from the input strings (Beta).
+
+	- The first two lines of the input file are open parentheses that start the NFA definition and the below ")," are not a part of the alpha tuple.
 		- Assuming that we can remove those lines when parsing the alpha tuple
 		 ( removed
 			( removed
@@ -150,14 +155,22 @@ def parse_input(infile):
 	# Opening the File and reading the contents
 	with open(infile_path, 'r') as f:
 		file = f.read().strip()
-	lines = file.split('\n')
+	lines = [f.strip() for f in file.split('\n')]
 
-	# Get input strings (beta)
-	beta = lines[-2].strip()[1:-1].split(',')
+	# Find the line where beta starts
+	for i, line in enumerate(lines):
+		if line.strip() == "),":
+			start_idx = i + 1
+			break
+
+	# Get all possible lines of the beta input strings
+	beta_lines = lines[start_idx:-1]
+	beta = ' '.join(beta_lines).strip()[1:-1]
+	beta = beta.split(',')
 	beta = [b.strip() for b in beta]
 
 	# Remove all parts of the file that are not alpha
-	alpha = lines[2:-3]
+	alpha = lines[2:start_idx - 1]
 	nfa = flatten_nfa(alpha)
 
 	return nfa, beta
