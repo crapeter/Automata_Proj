@@ -16,8 +16,8 @@
   (q60,i,q61),(q61,j,q62),(q62,k,q63),(q63,l,q64),(q64,m,q65),(q65,n,q66),(q66,o,q67),(q67,p,q68),(q68,q,q69),(q69,r,q70),
   (q70,s,q71),(q71,t,q72),(q72,u,q73),(q73,v,q74),(q74,w,q75),(q75,x,q76),(q76,y,q77),(q77,z,q78),(q78,A,q79),(q79,B,q80),
   (q80,C,q81),(q81,D,q82),(q82,E,q83),(q83,F,q84),(q84,G,q85),(q85,H,q86),(q86,I,q87),(q87,J,q88),(q88,K,q89),(q89,L,q90),
-  (q90,M,q91),(q91,N,q92),(q92,O,q93),(q93,P,q94),(q94,Q,q95),(q95,R,q96),(q96,S,q97),(q97,T,q98),(q98,U,q99),(q99,V,q100))
+  (q90,M,q91),(q91,N,q92),(q92,O,q93),(q93,P,q94),(q94,Q,q95),(q95,R,q96),(q96,S,q97),(q97,T,q98),(q98,U,q99),(q99,V,q100),(q99,V,q0)
  ), 
- (abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV, 
+ (abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUV, 
  abcde)
 )

@@ -1,31 +1,31 @@
+# Group Members:
+# 	Craig Peterson
+# 	Ethan Norales De La Rosa
+
+# Assumptions:
+# 	- The NFA is represented as a 5-tuple: (alphabet, states, init_state, final_states, transitions) along with Beta (input strings)
+# 
+# 	- Assume that the input can span multiple lines in the input file instead of a single line per string, i.e. alphabet can be on more the one line etc...
+# 
+# 	- There is always a ")," line that separates the NFA definition from the input strings (Beta).
+# 
+# 	- The first two lines of the input file are open parentheses that start the NFA definition and the below ")," are not a part of the alpha tuple.
+# 		- Assuming that we can remove those lines when parsing the alpha tuple
+# 		 ( removed
+# 			( removed
+# 				(0, 1),
+# 				(q0, q1, q2),
+# 				q0,
+# 				(q2),
+# 				((q0, 0, q0), (q0, 1, q0),(q0, 0, q1),(q1, 1, q2))
+# 			), removed 
+# 			() removed
+# 		) removed
+
+
 """
-Group Members:
-	Craig Peterson
-	Ethan Norales De La Rosa
-
-Assumptions:
-	- The NFA is represented as a 5-tuple: (alphabet, states, init_state, final_states, transitions) along with Beta (input strings)
-
-	- Assume that the input can span multiple lines in the input file instead of a single line per string, i.e. alphabet can be on more the one line etc...
-
-	- There is always a ")," line that separates the NFA definition from the input strings (Beta).
-
-	- The first two lines of the input file are open parentheses that start the NFA definition and the below ")," are not a part of the alpha tuple.
-		- Assuming that we can remove those lines when parsing the alpha tuple
-		 ( removed
-			( removed
-				(0, 1),
-				(q0, q1, q2),
-				q0,
-				(q2),
-				((q0, 0, q0), (q0, 1, q0),(q0, 0, q1),(q1, 1, q2))
-			), removed 
-			() removed
-		) removed
-"""
-
-"""
-BFS implementation of NFA
+'BFS' implementation of NFA
+	Explore all possible steps for each symbol in the input string at the same time
 
 Inputs: nfa - a 5-tuple representing the NFA
 				beta - the input string to process
@@ -51,6 +51,8 @@ def NFA(nfa, beta):
 			for t in transitions:
 				if t[0] == state and t[1] == b:
 					next_states.add(t[2])
+				# ns = transitions.get((state, b), [])
+				# [next_states.add(n) for n in ns]
 		# Update current states
 		current_states = next_states
 
@@ -76,7 +78,7 @@ def empty_beta(nfa):
 			print("Bye bye")
 			break
 
-		print(f"{"Accepted" if NFA(nfa, b) else "Rejected"}")
+		print(f"{'Accepted' if NFA(nfa, b) else 'Rejected'}")
 		count += 1
 
 
