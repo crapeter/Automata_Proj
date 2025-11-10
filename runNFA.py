@@ -51,8 +51,6 @@ def NFA(nfa, beta):
 			for t in transitions:
 				if t[0] == state and t[1] == b:
 					next_states.add(t[2])
-				# ns = transitions.get((state, b), [])
-				# [next_states.add(n) for n in ns]
 		# Update current states
 		current_states = next_states
 
