@@ -1,5 +1,4 @@
 from sys import argv
-import timeit
 
 # Group Members:
 # 	Craig Peterson
@@ -168,7 +167,6 @@ def parse_input(infile):
 Main function to run the NFA
 """
 if __name__ == "__main__":
-	start = timeit.default_timer()
 	if len(argv) < 2:
 		print("Please provide the input file name as a command-line argument.\nUsage: python runNFA.py <input_file_name>")
 		exit(1)
@@ -180,5 +178,3 @@ if __name__ == "__main__":
 		exit(1)
 
 	empty_beta(nfa) if beta == [''] else non_empty_beta(nfa, beta)
-	end = timeit.default_timer()
-	print(f"\nExecution Time: {end - start} seconds")
