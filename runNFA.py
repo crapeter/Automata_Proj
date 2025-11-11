@@ -34,8 +34,6 @@ Inputs: nfa - a 5-tuple representing the NFA
 
 Outputs: True if beta is accepted by the NFA, False otherwise
 """
-
-
 def NFA(nfa, beta):
 	alphabet, states, init_state, final_states, transitions = nfa
 
