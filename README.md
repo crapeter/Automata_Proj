@@ -27,7 +27,6 @@ Python 3
 - proj-1-machine.txt → Example input, user input not needed
 - proj-1-machine-1.txt → Example input, user input required
 - test.txt → Example input with larger alphabet, more states and more transitions, user input not needed
-- README.txt → This documentation file
 
 ## Input Format
 
