@@ -1,4 +1,5 @@
 from sys import argv
+import timeit
 
 # Group Members:
 # 	Craig Peterson
@@ -124,6 +125,8 @@ def flatten_nfa(alpha):
 	if len(nfa_parts) != 5:
 		return []
 
+	# nfa_parts is formated like this: [alphabet, states, init_state, final_states, transitions]
+	# Parse each part accordingly
 	alphabet = nfa_parts[0]
 	states = nfa_parts[1][1:-1].replace(' ', '').split(',')
 	init_state = nfa_parts[2]
@@ -165,6 +168,7 @@ def parse_input(infile):
 Main function to run the NFA
 """
 if __name__ == "__main__":
+	start = timeit.default_timer()
 	if len(argv) < 2:
 		print("Please provide the input file name as a command-line argument.\nUsage: python runNFA.py <input_file_name>")
 		exit(1)
@@ -176,3 +180,5 @@ if __name__ == "__main__":
 		exit(1)
 
 	empty_beta(nfa) if beta == [''] else non_empty_beta(nfa, beta)
+	end = timeit.default_timer()
+	print(f"\nExecution Time: {end - start} seconds")
