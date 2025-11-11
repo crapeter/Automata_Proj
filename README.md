@@ -1,7 +1,5 @@
 # CS 5383: Final Project
 
-## Project Title
-
 NFA Simulation using Breadth-First Search (BFS)
 
 ## Group Members
