@@ -1,3 +1,5 @@
+from sys import argv
+
 # Group Members:
 # 	Craig Peterson
 # 	Ethan Norales De La Rosa
@@ -32,6 +34,8 @@ Inputs: nfa - a 5-tuple representing the NFA
 
 Outputs: True if beta is accepted by the NFA, False otherwise
 """
+
+
 def NFA(nfa, beta):
 	alphabet, states, init_state, final_states, transitions = nfa
 
@@ -84,15 +88,9 @@ def empty_beta(nfa):
 Run the NFA on the given beta.
 """
 def non_empty_beta(nfa, beta):
-	string_accepted = []
-
 	# Process each string in beta and append the result to string_accepted
-	for b in beta:
-		if NFA(nfa, b):
-			string_accepted.append("accepted")
-		else:
-			string_accepted.append("rejected")
-	print("(" + ', '.join(string_accepted) + ")", end='')
+	strings_accepted = ["accepted" if NFA(nfa, b) else "rejected" for b in beta]
+	print("(" + ', '.join(strings_accepted) + ")", end='')
 
 
 """
@@ -103,8 +101,7 @@ Outputs: nfa - a 5-tuple representing the NFA
 """
 def flatten_nfa(alpha):
 	# Converts multi-line NFA definition into a single line
-	alpha = [line.strip() for line in alpha]
-	text = ' '.join(alpha)
+	nfa_text = ' '.join(line.strip() for line in alpha)
 
 	# Split the text into its 5 components
 	nfa_parts = []
@@ -112,19 +109,16 @@ def flatten_nfa(alpha):
 	depth = 0
 
 	# Depth based parsing to handle nested parentheses because we didn't want to use recursion to simulate a recursive descent parser
-	for char in text:
+	for char in nfa_text:
 		if char == '(':
 			depth += 1
-			current_part += char
 		elif char == ')':
 			depth -= 1
-			current_part += char
 		elif char == ',' and depth == 0:
-			if current_part.strip():
-				nfa_parts.append(current_part.strip())
-				current_part = ''
-		else:
-			current_part += char
+			nfa_parts.append(current_part.strip())
+			current_part = ''
+			continue
+		current_part += char
 
 	if current_part.strip():
 		nfa_parts.append(current_part.strip())
@@ -136,8 +130,7 @@ def flatten_nfa(alpha):
 	states = nfa_parts[1][1:-1].replace(' ', '').split(',')
 	init_state = nfa_parts[2]
 	final_state = nfa_parts[3][1:-1].replace(' ', '').split(',')
-	transitions = nfa_parts[4].strip('()').replace(' ', '').split('),(')
-	transitions = [tuple(t.split(',')) for t in transitions]
+	transitions = [tuple(t.split(',')) for t in nfa_parts[4].strip('()').replace(' ', '').split('),(')]
 
 	return alphabet, states, init_state, final_state, transitions
 
@@ -149,29 +142,23 @@ Inputs: infile - name of the input file (without .txt extension)
 Outputs: nfa (the 5-tuple) and beta (the input string)
 """
 def parse_input(infile):
-	# Getting the absolute path of the input file
-	infile_path = infile + ".txt"
-
-	# Opening the File and reading the contents
-	with open(infile_path, 'r') as f:
+	# Opening the file and reading the contents
+	with open(infile, 'r') as f:
 		file = f.read().strip()
 	lines = [f.strip() for f in file.split('\n')]
 
-	# Find the line where beta starts
-	for i, line in enumerate(lines):
-		if line.strip() == "),":
-			start_idx = i + 1
-			break
+	# Find the line where beta starts, if no beta is given then it's an invalid input
+	try:
+		start_idx = lines.index('),') + 1
+	except ValueError:
+		print("Error: No beta input strings found in the input file.")
+		exit(1)
 
 	# Get all possible lines of the beta input strings
-	beta_lines = lines[start_idx:-1]
-	beta = ' '.join(beta_lines).strip()[1:-1]
-	beta = beta.split(',')
-	beta = [b.strip() for b in beta]
+	beta = [b.strip() for b in ' '.join(lines[start_idx:-1]).strip()[1:-1].split(',')]
 
 	# Remove all parts of the file that are not alpha
-	alpha = lines[2:start_idx - 1]
-	nfa = flatten_nfa(alpha)
+	nfa = flatten_nfa(lines[2:start_idx - 1])
 
 	return nfa, beta
 
@@ -180,14 +167,14 @@ def parse_input(infile):
 Main function to run the NFA
 """
 if __name__ == "__main__":
-	infile = input("Please input the file name: ").strip()
-	nfa, beta = parse_input(infile)
+	if len(argv) < 2:
+		print("Please provide the input file name as a command-line argument.\nUsage: python runNFA.py <input_file_name>")
+		exit(1)
+
+	nfa, beta = parse_input(argv[1])
 
 	if not nfa:
 		print("Error parsing NFA from input file.")
 		exit(1)
 
-	if beta == ['']:
-		empty_beta(nfa)
-	else:
-		non_empty_beta(nfa, beta)
+	empty_beta(nfa) if beta == [''] else non_empty_beta(nfa, beta)
